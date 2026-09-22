@@ -1,0 +1,25 @@
+name: build-mesa-aar
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build AAR
+        run: |
+          chmod +x scripts/build_aar.sh
+          scripts/build_aar.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mesa.aar
+          path: out/mesa.aar
+          retention-days: 14
